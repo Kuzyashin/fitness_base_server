@@ -170,10 +170,11 @@ pip-selfcheck.json
 
 ### Django
 
-# /logs/
-# /pids/
-# /public/
+./app/logs/*
+./app/pids/*
+./app/public/*
 /app/project/settings/local.py
 /app/project/settings/secret.py
 /app/project/settings/production.py
 .DS_Store
+.prod.full.env
