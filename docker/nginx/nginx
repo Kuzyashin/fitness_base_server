@@ -3,6 +3,7 @@ server {
     client_max_body_size 4G;
     keepalive_timeout 5;
 
+
     location / {
         proxy_pass http://127.0.0.1:8000;
         proxy_set_header Host $server_name;
@@ -19,6 +20,11 @@ server {
     server_name flower.hhparser.awkr.site;
     client_max_body_size 4G;
     keepalive_timeout 5;
+
+    location /static/ {
+        root /public/;
+        autoindex off;
+    }
 
     location / {
         proxy_pass http://127.0.0.1:8888;
@@ -66,44 +72,15 @@ server {
     }
 }
 
-server {
-    server_name pgadmin.fitnesskit.awkr.site;
-    client_max_body_size 4G;
-    keepalive_timeout 5;
-
-    location / {
-        proxy_pass http://127.0.0.1:5051;
-        proxy_set_header Host $server_name;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-
-        proxy_http_version 1.1;
-        proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header Connection "upgrade";
-    }
-}
-
-server {
-    server_name rabbit.fitnesskit.awkr.site;
-    client_max_body_size 4G;
-    keepalive_timeout 5;
-
-    location / {
-        proxy_pass http://127.0.0.1:15673;
-        proxy_set_header Host $server_name;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-
-        proxy_http_version 1.1;
-        proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header Connection "upgrade";
-    }
-}
 
 server {
     server_name backend.mobile.fitnesskit.awkr.site;
     client_max_body_size 4G;
-    keepalive_timeout 5;
+
+    location /static/ {
+        root /root/fitnesskit/fitness_mobile_server/app/public/;
+        autoindex off;
+    }
 
     location / {
         proxy_pass http://127.0.0.1:8001;
@@ -120,7 +97,11 @@ server {
 server {
     server_name backend.integration.fitnesskit.awkr.site;
     client_max_body_size 4G;
-    keepalive_timeout 5;
+
+    location /static/ {
+        root /root/fitnesskit/fitness_base_server/app/public/;
+        autoindex off;
+    }
 
     location / {
         proxy_pass http://127.0.0.1:8002;

@@ -38,7 +38,8 @@ class PikaWorkerHandler:
                 consumer_tag=self._consumer_tag
             )
             self._channel.start_consuming()
-        except Exception:
+        except Exception as e:
+            print(e)
             self._channel.stop_consuming()
             self._connection.close()
             self.run_worker()
