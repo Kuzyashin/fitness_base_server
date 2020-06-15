@@ -1,0 +1,20 @@
+version: "3.8"
+services:
+
+  backend: &backend
+    image: backend:latest-base-server
+    env_file:
+      - .prod.full.env
+    build:
+      context: .
+      dockerfile: backend.Dockerfile
+    ports:
+      - 8001:8001
+    volumes:
+      - ./app/public:/app/public
+
+  worker:
+    <<: *backend
+    ports:
+      - 8001
+    command: python /app/project/amqp_worker.py
