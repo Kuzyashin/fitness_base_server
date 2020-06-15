@@ -9,8 +9,13 @@ from lessons.models import Lesson
 from lessons.utils.parser import get_data
 
 
+RABBIT_HOST = os.environ['RABBIT_HOST']
+RABBIT_LOGIN = os.environ['RABBIT_LOGIN']
+RABBIT_PASSWORD = os.environ['RABBIT_PASSWORD']
+
+
 producer = PikaProducerHandler(
-    connection_string='amqp://guest:guest@localhost:5672/%2F',
+    connection_string=f'amqp://{RABBIT_LOGIN}:{RABBIT_PASSWORD}@{RABBIT_HOST}:5672/%2F',
     queue_name='lesson_ready_queue',
 )
 
@@ -29,7 +34,7 @@ def callback(msg):
 
 
 worker = PikaWorkerHandler(
-    connection_string='amqp://guest:guest@localhost:5672/%2F',
+    connection_string=f'amqp://{RABBIT_LOGIN}:{RABBIT_PASSWORD}@{RABBIT_HOST}:5672/%2F',
     callback=callback,
     main_queue_name='lesson_update_queue',
     consumer_tag='Worker#1'
